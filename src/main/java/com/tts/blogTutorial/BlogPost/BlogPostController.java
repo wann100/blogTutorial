@@ -1,5 +1,8 @@
 package com.tts.blogTutorial.BlogPost;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,19 +14,27 @@ public class BlogPostController {
 	
 	@Autowired
     private BlogPostRepository blogPostRepository;
+	private static List<BlogPost> posts = new ArrayList<>();
 	
 	@GetMapping(value="/")
-	public String index(BlogPost blogPost) {
+	public String index(BlogPost blogPost, Model model) {
+		model.addAttribute("posts", posts);
 		return "blogPost/index";
 	}
 	
+	@GetMapping(value = "/blog_posts/new")
+    public String newBlog(BlogPost blogPost) {
+        return "blogPost/new";
+    }
+	
 //	private BlogPost blogPost;
-	@PostMapping(value = "/")
+	@PostMapping(value = "/blog_posts/new")
 	public String addNewBlogPost(BlogPost blogPost, Model model) {
 		blogPostRepository.save(new BlogPost(blogPost.getTitle(), blogPost.getAuthor(), blogPost.getBlogEntry()));
+		posts.add(blogPost);
 		model.addAttribute("title", blogPost.getTitle());
 		model.addAttribute("author", blogPost.getAuthor());
 		model.addAttribute("blogEntry", blogPost.getBlogEntry());
-		return "blogpost/result";
+		return "blogPost/result";
 	}
 }
