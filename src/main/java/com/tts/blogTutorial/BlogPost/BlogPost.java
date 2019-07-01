@@ -1,9 +1,11 @@
 package com.tts.blogTutorial.BlogPost;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+@Entity
 public class BlogPost {
 	
 	// Sets the Id as the Primary Key
